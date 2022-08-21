@@ -1,27 +1,37 @@
 package application;
 
+import java.util.Scanner;
+
+import chess.ChessException;
 import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
-import java.util.Scanner;
 
 public class Program {
 
 	public static void main(String[] args) {
 		
-		ChessMatch chessmatch = new ChessMatch();
+		Scanner sc = new Scanner(System.in);
+		ChessMatch chessMatch = new ChessMatch();
 		
 		while (true) {
-		UI.printBoard(chessmatch.getPieces());
-		System.out.println();
-		System.out.print("Source: ");
-		ChessPosition source = UI.readChessPosition(null);
-		
-		System.out.println();
-		System.out.println("Target: ");
-		ChessPosition target = UI.readChessPosition(null);
-		
-		ChessPiece capturedPiece = ChessMatch.performChessMove(source, target);
-		} 	
+			try {
+				UI.clearScreen();
+				UI.printBoard(chessMatch.getPieces());
+				System.out.println();
+				System.out.print("Source: ");
+				ChessPosition source = UI.readChessPosition(sc);
+				
+				System.out.println();
+				System.out.print("Target: ");
+				ChessPosition target = UI.readChessPosition(sc);
+				
+				ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+			}
+			catch (ChessException e) {
+				System.out.println(e.getMessage());
+				sc.nextLine();
+			}
+		}
 	}
 }
